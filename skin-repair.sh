@@ -11,18 +11,53 @@ fi
 ANDROID_SKINS_DIRECTORY=$ANDROID_SDK_ROOT/skins
 AVDMANAGER=$ANDROID_SDK_ROOT/tools/bin/avdmanager
 
-# INPUT PARAMS
-if [ -z "$2" ]
+# LIST AVAILABLE AVDS
+AVDS=($($AVDMANAGER list avd | grep -w "Name:" | awk '{print $2}'))
+if [ -z "$AVDS" ]
   then
-	echo -e "Usage:\t $(basename $0) AVD-NAME PREDEFINED-SKIN"
-	exit 1
+        echo -e "No AVDs found."
+        exit 1
 fi
-IN_AVD=$1
-IN_SKIN=$2
+COUNTER=0
+for AVD in "${AVDS[@]}"
+do
+	echo "[$COUNTER] $AVD"
+	COUNTER=$((COUNTER+1))
+done
+
+# USER SELECTS AVD-ID
+AVD_ID="${#AVDS[@]}"
+while [[ ! "$AVD_ID" =~ ^[0-9]+$ ]] || [[ ! "$AVD_ID" -lt "${#AVDS[@]}" ]]; do
+	echo -e "Please select the AVD number: \c"
+	read AVD_ID
+done
+AVD="${AVDS[$AVD_ID]}"
+
+# LIST AVAILABLE SKINS
+SKINS=($(ls $ANDROID_SKINS_DIRECTORY))
+if [ -z "$SKINS" ]
+  then
+        echo -e "No Skins found."
+        exit 1
+fi
+COUNTER=0
+for SKIN in "${SKINS[@]}"
+do
+        echo "[$COUNTER] $SKIN"
+        COUNTER=$((COUNTER+1))
+done
+
+# USER SELECTS SKIN-ID
+SKIN_ID="${#SKINS[@]}"
+while [[ ! "$SKIN_ID" =~ ^[0-9]+$ ]] || [[ ! "$SKIN_ID" -lt "${#SKINS[@]}" ]]; do
+        echo -e "Please select the Skin number: \c"
+        read SKIN_ID
+done
+SKIN="${SKINS[$SKIN_ID]}"
 
 # LINES TO APPEND
-declare -a APP=("skin.name=$IN_SKIN"
-		"skin.path=$ANDROID_SKINS_DIRECTORY/$IN_SKIN"
+declare -a APP=("skin.name=$SKIN"
+		"skin.path=$ANDROID_SKINS_DIRECTORY/$SKIN"
 		"hw.gpu.enabled=yes"
 		"hw.gpu.mode=auto"
 		"hw.ramSize=1536"
@@ -31,27 +66,9 @@ declare -a APP=("skin.name=$IN_SKIN"
 		)
 
 # GET PATH OF AVD
-AVD_PATH=$($AVDMANAGER list avd | grep -q -A 2 -w $IN_AVD | grep -q Path | awk '{print $2}')
+AVD_PATH=$($AVDMANAGER list avd | grep -A 2 -w $AVD | grep Path | awk '{print $2}')
 if [ -z "$AVD_PATH" ]; then
-	echo "AVD '$IN_AVD' not found"
-	echo "Check 'avdmanager list avd' for availabe AVDs"
-	exit 1
-fi
-echo "Path: '$AVD_PATH'"
-
-# CHECK IF VALID SKIN INPUT
-for SKIN in "$ANDROID_SKINS_DIRECTORY"/*
-do
-	SKIN=$(basename "$SKIN")
-	if [ "$IN_SKIN" == "$SKIN" ]; then
-		break
-	else
-		unset SKIN
-	fi 
-done
-if [ -z "$SKIN" ]; then
-	echo "Skin '$IN_SKIN' not found"
-	echo "Check 'ls $ANDROID_SKINS_DIRECTORY' for availabe Skins"
+	echo "AVD Path not found"
 	exit 1
 fi
 
