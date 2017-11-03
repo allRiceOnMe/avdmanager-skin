@@ -1,4 +1,4 @@
-# avdmanager_skin-Repair
+# avdmanager-skin
 
 Repair the AVD's `config.ini` file to get the correct skin parameters, after the creation using the `avdmanager`.
 
