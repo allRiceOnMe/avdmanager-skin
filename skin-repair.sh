@@ -12,6 +12,11 @@ ANDROID_SKINS_DIRECTORY=$ANDROID_SDK_ROOT/skins
 AVDMANAGER=$ANDROID_SDK_ROOT/tools/bin/avdmanager
 
 # INPUT PARAMS
+if [ -z "$2" ]
+  then
+	echo -e "Usage:\t $(basename $0) AVD-NAME PREDEFINED-SKIN"
+	exit 1
+fi
 IN_AVD=$1
 IN_SKIN=$2
 
