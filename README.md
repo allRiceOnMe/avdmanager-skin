@@ -24,14 +24,37 @@ Now run the AVD using the `emulator -avd testAVD` command. The snapshot shows wh
 
 Ok, now how to solve the problem described above? -> Use the script from this repo. 
 
-- The first parameter is the name of the AVD (such as `testAVD`). 
-
-- The second parameter is the socalled ["predefined skin"](https://developer.android.com/studio/run/managing-avds.html#emulator-skin) (such as `nexus_5x`). It is the skin that belongs to the selected device. The command `$ ls $ANDROID_SDK_ROOT/skins` lists all predefined skins.
-
 ```
-$ ./skin-repair.sh testAVD nexus_5x
+$ ./skin-repair.sh
+[0] Android_Accelerated_Nougat
+[1] Android_ARMv7a_Nougat
+[2] KitKat
+[3] Lollipop
+[4] Nougat
+[5] testAVD
+Please select the AVD number: 5
+[0] AndroidWearRound
+[1] AndroidWearSquare
+[2] galaxy_nexus
+[3] nexus_10
+[4] nexus_4
+[5] nexus_5
+[6] nexus_5x
+[7] nexus_6
+[8] nexus_6p
+[9] nexus_7
+[10] nexus_7_2013
+[11] nexus_9
+[12] nexus_one
+[13] nexus_s
+[14] pixel
+[15] pixel_c
+[16] pixel_xl
+[17] tv_1080p
+[18] tv_720p
+Please select the Skin number: 6
 ```
 
-Now run the AVD again (`$ emulator -avd testAVD`) and enjoy the correct resolution:
+That's all. Now run the AVD again (`$ emulator -avd testAVD`) and enjoy the correct resolution:
 
 <img src="https://user-images.githubusercontent.com/16719316/32377437-fd293052-c0a7-11e7-93ce-6f653f6320be.png" width="300" />
