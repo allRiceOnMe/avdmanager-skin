@@ -5,7 +5,7 @@ if [ -z "$ANDROID_SDK_ROOT" ]; then
 	echo "Need to set ANDROID_SDK_ROOT"
 	echo "See https://developer.android.com/studio/command-line/variables.html#android_sdk_root for help"
     exit 1
-fi  
+fi
 
 # ANDROID VARIABLE
 ANDROID_SKINS_DIRECTORY=$ANDROID_SDK_ROOT/skins
@@ -17,16 +17,16 @@ IN_SKIN=$2
 
 # LINES TO APPEND
 declare -a APP=("skin.name=$IN_SKIN"
-				"skin.path=$ANDROID_SKINS_DIRECTORY/$IN_SKIN"
-				"hw.gpu.enabled=yes"
-				"hw.gpu.mode=auto"
-				"hw.ramSize=1536"
-				"showDeviceFrame=yes"
-				"skin.dynamic=yes"
-				)
+		"skin.path=$ANDROID_SKINS_DIRECTORY/$IN_SKIN"
+		"hw.gpu.enabled=yes"
+		"hw.gpu.mode=auto"
+		"hw.ramSize=1536"
+		"showDeviceFrame=yes"
+		"skin.dynamic=yes"
+		)
 
 # GET PATH OF AVD
-AVD_PATH=$($AVDMANAGER list avd | grep -A 2 -w $IN_AVD | grep Path | awk '{print $2}')
+AVD_PATH=$($AVDMANAGER list avd | grep -q -A 2 -w $IN_AVD | grep -q Path | awk '{print $2}')
 if [ -z "$AVD_PATH" ]; then
 	echo "AVD '$IN_AVD' not found"
 	echo "Check 'avdmanager list avd' for availabe AVDs"
