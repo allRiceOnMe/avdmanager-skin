@@ -63,6 +63,7 @@ declare -a APP=("skin.name=$SKIN"
 		"hw.ramSize=1536"
 		"showDeviceFrame=yes"
 		"skin.dynamic=yes"
+		"hw.keyboard=yes"
 		)
 
 # GET PATH OF AVD
